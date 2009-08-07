@@ -39,6 +39,9 @@ Rails::Initializer.run do |config|
   # :lib     => "clearance", 
   # :source  => 'http://gems.github.com', 
   # :version => '0.6.9'
+  
+  config.gem 'fesplugas-typus', :lib => 'typus', :source => 'http://gems.github.com'
+
 
   # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
   # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]

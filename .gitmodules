@@ -1,3 +1,0 @@
-[submodule "vendor/plugins/clearance"]
-	path = vendor/plugins/clearance
-	url = git://github.com/thoughtbot/clearance.git

@@ -1,16 +1,26 @@
+# -*- coding: utf-8 -*-
 class User < ActiveRecord::Base
+  
+  has_many :follows
+  has_many :twits, :through=>'follows'
+  
   # new columns need to be added here to be writable through mass assignment
   #  attr_accessible :username, :email, :password, :password_confirmation
-  attr_accessible :phone
+  attr_accessible :phone, :twitter
+  
+  attr_accessor :twitter
+#  attr_writer :twitter
   
   # attr_accessor :password
-  before_save :prepare_phone
+  before_validation :prepare_phone
   
-
+  validates_presence_of :twitter
+  
   validates_presence_of :phone
   validates_uniqueness_of :phone
-  validates_length_of :phone, :minimum => 10, :maximum => 15
-  validates_format_of :phone, :with => /^[0-9\(\)\- ]+$/i,  :message => "should only contain numbers"
+  validates_length_of :phone, :minimum => 11
+  validates_format_of :phone, :with => /^[0-9]+$/i,  :message => "should only contain numbers"
+
   # validates_presence_of :username
   # validates_uniqueness_of :username, :email, :allow_blank => true
   # validates_format_of :username, :with => /^[-\w\._@]+$/i, :allow_blank => true, :message => "should only contain letters, numbers, or .-_@"
@@ -29,10 +39,18 @@ class User < ActiveRecord::Base
   #   self.password_hash == encrypt_password(pass)
   # end
   
+#  def twitter
+#    params[:user][:twitter]
+#    'asdasd'
+#  end
+  
   private
   
   def prepare_phone
     phone.sub!(/[^0-9]/,'')
+    
+    # TODO Сделать нормальную генерацию кода
+    phone_code=rand(1000)
   end
   
   # def prepare_password
