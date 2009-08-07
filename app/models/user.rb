@@ -48,7 +48,7 @@ class User < ActiveRecord::Base
   private
   
   def prepare_phone
-    phone.sub!(/[^0-9]/,'')
+    phone.gsub!(/[^0-9]/,'')
   end
   
   def generate_code
