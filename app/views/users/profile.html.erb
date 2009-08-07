@@ -1,5 +1,26 @@
 <% title "Profile" %>
-<%= debug @user %>
+
+<p>Ваш телефон: <%= @user.phone %></p>
+
+<% if @user.phone_confirmed %>
+<p>Телефон подтвержден.</p>
+<% else %>
+<p>Телефон НЕ подтвержден.</p>
+<% form_tag phone_confirm_path do %>
+  <p>
+    <%= label_tag :phone_code, "Код" %> (<%= @user.phone_code %>)<br />
+    <%= text_field_tag :phone_code %>
+  </p>
+  <p><%= submit_tag "Подтвердить" %></p>
+<% end %>
+<% end %>
+
+<%= link_to "Выйти", logout_path %>
+
 
 <h2>Follows</h2>
-<%= debug @user.follows %>
+<ul>
+<% @user.follows.each do |f| %>
+<li><%= f.twitter %></li>
+<% end %>
+</ul>

@@ -4,8 +4,21 @@ class UsersController < ApplicationController
     @user = User.new
   end
   
+  # TODO authorization для нуных полеу before_filter
   def profile
     redirect_to new_session_path unless current_user
+  end
+  
+  def phone_confirm
+    if params[:phone_code]==current_user.phone_code
+      flash[:notice] = "Код верный. Ваш телефон подтвержден."
+      current_user.update_attribute('phone_confirmed',true)
+    else
+      flash[:error] = "Код неверный"
+
+    end
+    redirect_to profile_path
+#    render :action=>'profile'
   end
   
   def create

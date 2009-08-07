@@ -7,12 +7,13 @@ class User < ActiveRecord::Base
   # new columns need to be added here to be writable through mass assignment
   #  attr_accessible :username, :email, :password, :password_confirmation
   attr_accessible :phone, :twitter
-  
   attr_accessor :twitter
+  
 #  attr_writer :twitter
   
   # attr_accessor :password
   before_validation :prepare_phone
+  before_save       :generate_code
   
   validates_presence_of :twitter
   
@@ -48,9 +49,11 @@ class User < ActiveRecord::Base
   
   def prepare_phone
     phone.sub!(/[^0-9]/,'')
-    
+  end
+  
+  def generate_code
     # TODO Сделать нормальную генерацию кода
-    phone_code=rand(1000)
+    self.phone_code=rand(1000)
   end
   
   # def prepare_password
