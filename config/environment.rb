@@ -41,6 +41,7 @@ Rails::Initializer.run do |config|
   # :version => '0.6.9'
   
   config.gem 'fesplugas-typus', :lib => 'typus', :source => 'http://gems.github.com'
+  config.gem 'andand', :version=>"1.3.1"
 
 
   # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.

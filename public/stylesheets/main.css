@@ -113,7 +113,7 @@ input {vertical-align: middle}
   text-decoration: none;
   padding: 1px 3px 1px 3px;
 }
-#top_menu a:hover {
+#top_menu a:hover, #top_menu a.current {
   color: #fff;
   background: #1988dc;
   text-decoration: none;
@@ -202,3 +202,8 @@ form button img {
 #copy a:hover {
   background: #6dbef8;
 }
+
+
+/* ------------------ */
+
+.twitter { font-weight: bold }

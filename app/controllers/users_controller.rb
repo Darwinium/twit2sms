@@ -16,7 +16,7 @@ class UsersController < ApplicationController
   def phone_confirm
     if params[:phone_code]==current_user.phone_code
       flash[:notice] = "Код верный. Ваш телефон подтвержден."
-      current_user.update_attribute('phone_confirmed',true)
+      current_user.confirm_phone
     else
       flash[:error] = "Код неверный"
 
@@ -26,18 +26,22 @@ class UsersController < ApplicationController
   end
   
   def create
-    
-    if @user = User.find_by_phone(params[:user][:phone])
+
+    phone = User.prepare_phone(params[:user][:phone])
+    if @user = User.find_by_phone(phone)
       
       # TODO Если пользователь не одтвердил код? Что-то дожно быть в профиле
-      
+      session[:phone]=params[:user][:phone]
+      session[:twitter]=params[:user][:twitter]
+#      render :action=> 'new', :controller => 'sessions'
       redirect_to login_path
       return
     end
     
     @user = User.new(params[:user])
     if @user.save
-      @user.follows.create({:twitter=>@user.twitter})
+      @user.follow
+      # TODO редирект куда надо, если не прошло
       session[:user_id] = @user.id
       flash[:notice] = "Thank you for signing up! You are now logged in."
       redirect_to root_url
