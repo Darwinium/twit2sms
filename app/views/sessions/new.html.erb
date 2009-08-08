@@ -1,15 +1,29 @@
-<% title "Log in" %>
+<% title "Вход" %>
 
-<p>Don't have an account? <%= link_to "Sign up!", signup_path %></p>
+
+<div id="login_form">
 
 <% form_tag sessions_path do %>
   <p>
-    <%= label_tag :login, "Username or Email Address" %><br />
-    <%= text_field_tag :login, params[:login] %>
+    <%= label_tag :phone, "Номер телефона:", :class => "label" %><br />
+    <%= text_field_tag :phone, params[:phone], :class => "field left_d" %>
+		<div class="clear"></div>
+    <div class="smal_t">Номер, под которые Вы зарегистрировались. <br/><b>Например</b>: +79128423346</div>
   </p>
+  <br/>
   <p>
-    <%= label_tag :password %><br />
-    <%= password_field_tag :password %>
+    <%= label_tag :password, "Код:", :class => "label" %><br />
+    <%= password_field_tag :password, nil, :class => "field left_d" %>
+    <div style="display: none"><img src="/images/checked.png" /></div>
+    <div class="clear"></div>
+    <div class="smal_t">Код, который Вам высылали. <br/><a href="send_code">Выслать код снова</a></div>
   </p>
-  <p><%= submit_tag "Log in" %></p>
+  <div align="right"><%= submit_tag "Войти" %></div>
+
 <% end %>
+<br/>
+<p>Don't have an account? <%= link_to "Sign up!", signup_path %></p>
+</div>
+
+
+

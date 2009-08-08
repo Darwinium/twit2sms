@@ -27,7 +27,13 @@ class UsersController < ApplicationController
   
   def create
     
-    # TODO Если пользователь уже есть - предлагать авторизацию
+    if @user = User.find_by_phone(params[:user][:phone])
+      
+      # TODO Если пользователь не одтвердил код? Что-то дожно быть в профиле
+      
+      redirect_to login_path
+      return
+    end
     
     @user = User.new(params[:user])
     if @user.save
