@@ -1,16 +1,23 @@
-<% form_for @user do |f| %>
-  <%= f.error_messages %>
-  <p>
-    <%= f.label :twitter, "За кем следить" %><br />
-    <%= f.text_field :twitter %>
-  </p>
-  <p>
-    <%= f.label :phone, "Номер моего мобильного" %><br />
-    <%= f.text_field :phone %>
-  </p>
-
-  <p><%= f.submit "Sign up" %></p>
-
-<% end %>
-
 <!--<p>Don't have an account? <%= link_to "Sign up!", signup_path %></p>-->
+<div id="login_form">
+  <% form_for @user do |f| %>
+    <%= f.error_messages %>
+    <p>
+      <%= f.label :twitter, "За кем следить:", :class => "label" %><br />
+      <%= f.text_field :twitter, :class => "field left_d" %>
+      <div style="display: none"><img src="/images/checked.png" /></div>
+      <div class="clear"></div>
+      <div class="smal_t">Укажите здесь пользователя, чье сообщения вы хотите получать. <br/><b>Например</b>: rutwit2sms</div>
+    </p>
+    <br/>
+    <p>
+      <%= f.label :phone, "Номер моего мобильного:", :class => "label" %><br />
+      <%= f.text_field :phone, :class => "field left_d" %>
+      <div style="display: none"><img src="/images/checked.png" /></div>
+      <div class="clear"></div>
+      <div class="smal_t">Только для Российских операторов сотовой связи. <br/><b>Например</b>: +79128423346</div>
+    </p>
+    <div align="right"><button type="submit"><img src="/images/submit.gif" alt="Следить"/></button></div>
+  
+  <% end %>
+</div>
