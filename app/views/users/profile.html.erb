@@ -1,14 +1,14 @@
 <% title "Profile" %>
 
-<p>Ваш телефон: <%= @user.phone %></p>
+<p>Ваш телефон: <%= current_user.phone %></p>
 
-<% if @user.phone_confirmed %>
+<% if current_user.phone_confirmed %>
 <p>Телефон подтвержден.</p>
 <% else %>
 <p>Телефон НЕ подтвержден.</p>
 <% form_tag phone_confirm_path do %>
   <p>
-    <%= label_tag :phone_code, "Код" %> (<%= @user.phone_code %>)<br />
+    <%= label_tag :phone_code, "Код" %> (<%= current_user.phone_code %>)<br />
     <%= text_field_tag :phone_code %>
   </p>
   <p><%= submit_tag "Подтвердить" %></p>
@@ -20,7 +20,7 @@
 
 <h2>Follows</h2>
 <ul>
-<% @user.follows.each do |f| %>
+<% current_user.follows.each do |f| %>
 <li><%= f.twitter %></li>
 <% end %>
 </ul>

@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 class UsersController < ApplicationController
+  
+  before_filter :redirect_to_login, :only => [:phone_confirm, :profile], :unless => :signed_in?
+  
   def new
     @user = User.new
   end
+  
   
   # TODO authorization для нуных полеу before_filter
   def profile
