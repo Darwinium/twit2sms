@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # This module is included in your application controller which makes
 # several methods available to all controllers and views. Here's a
 # common example you might add to your application layout file.
@@ -21,7 +22,9 @@ module Authentication
   end
   
   def current_user
-    @current_user ||= User.find_by_id(session[:user_id]) if session[:user_id]
+    # TODO Проверить что выскакикает когда не такого пользователя
+    # и почему не работает через find_by_id
+    @current_user ||= User.find(session[:user_id]) if session[:user_id]
   end
   
   def logged_in?
