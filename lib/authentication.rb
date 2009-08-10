@@ -24,7 +24,7 @@ module Authentication
   def current_user
     # TODO Проверить что выскакикает когда не такого пользователя
     # и почему не работает через find_by_id
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+    @current_user ||= User.find_by_id(session[:user_id]) if session[:user_id]
   end
   
   def logged_in?
