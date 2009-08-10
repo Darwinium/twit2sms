@@ -37,7 +37,6 @@ class UsersController < ApplicationController
     
     if @user.save
 
-      p "error2", @user.errors.on(:phone)
       @user.follow
       # TODO редирект куда надо, если не прошло
       session[:user_id] = @user.id
