@@ -68,6 +68,7 @@ class User < ActiveRecord::Base
   def generate_code
     # TODO Сделать нормальную генерацию кода
     self.phone_code=rand(1000)
+    send_code
   end
 
   def send_code
