@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   before_validation :prepare_phone
   before_save       :generate_code
   
-  validates_presence_of :twitter
+#  validates_presence_of :twitter
   
   validates_presence_of :phone
   validates_uniqueness_of :phone
@@ -67,6 +67,7 @@ class User < ActiveRecord::Base
   
   def generate_code
     # TODO Сделать нормальную генерацию кода
+    # должно быть 5 цифр
     self.phone_code=rand(1000)
     send_code
   end
