@@ -62,7 +62,7 @@ namespace :deploy do
     apache_config = <<-EOF
     <VirtualHost #{domain}:3002>
       ServerName twitter2sms.ru
-      ServerAlias twit2sms.ru www.twit2sms.ru www.twitter2sms.ru
+      ServerAlias twit2sms.ru www.twit2sms.ru www.twitter2sms.ru twitter2sms.ru
       DocumentRoot #{deploy_to}/current/public
       RailsEnv #{rails_env}
 
