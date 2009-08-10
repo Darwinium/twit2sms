@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+load 'vendor/plugins/thinking-sphinx/lib/thinking_sphinx/deploy/capistrano'
+# -*- coding: utf-8 -*-
 #############################################################
 #       Application
 #############################################################
 
-set :application, "twit2sms"
+set :application, "8352.info"
 set :user_home, "/home/p8352"
 set :deploy_to, "#{user_home}/#{application}"
 
@@ -12,7 +14,12 @@ set :deploy_to, "#{user_home}/#{application}"
 #############################################################
 
 default_run_options[:pty] = false
+#default_run_options[:shell] = false
 ssh_options[:forward_agent] = true
+#ssh_options[:verbose] = :debug
+#ssh_options[:config] = "~/.ssh/config"
+#ssh_options[:keys] = [File.join(ENV["HOME"], ".ssh",  "identity")] 
+#ssh_options[:keys] = ["~/.ssh/identity"]
 set :use_sudo, false
 set :scm_verbose, true
 #set :rails_env, "development"
@@ -36,7 +43,9 @@ role :db, domain, :primary => true
 set :scm, :git
 #set :branch, "master"
 
-set :repository, "ssh://danil@dapi.orionet.ru/home/danil/projects/github/dapi/twit2sms"
+# http://www.capify.org/index.php/SCM_Server_Non-Standard_Port
+#set :repository, "git://github.com/dapi/8352.git"
+set :repository, "ssh://danil@dapi.orionet.ru/home/danil/projects/github/dapi/8352"
 
 set :deploy_via, :remote_cache
 #set :deploy_via, :copy
@@ -54,8 +63,8 @@ namespace :deploy do
   task :after_update_code do
     apache_config = <<-EOF
     <VirtualHost #{domain}:3002>
-      ServerName twitter2sms.ru
-      ServerAlias twit2sms.ru www.twit2sms.ru www.twitter2sms.ru
+      ServerName 8352.info
+      ServerAlias 8352.info www.8352.info chuvashia.ru www.chuvashia.ru *.chuvashia.ru
       DocumentRoot #{deploy_to}/current/public
       RailsEnv #{rails_env}
 
@@ -73,18 +82,18 @@ namespace :deploy do
   
   desc "Fill roles"
   task :after_setup do
-#    run "cd #{current_path}; RAILS_ENV=#{rails_env} rake db:fill_roles"
+    run "cd #{current_path}; RAILS_ENV=#{rails_env} rake db:fill_roles"
     
- #   run "cd #{current_path}; RAILS_ENV=#{rails_env} rake db:p8352:add_default_roles"
+    run "cd #{current_path}; RAILS_ENV=#{rails_env} rake db:p8352:add_default_roles"
     # add default roles: "admin", "editor", "reviewer"
     
-#    run "cd #{current_path}; RAILS_ENV=#{rails_env} rake db:p8352:add_default_users"
+    run "cd #{current_path}; RAILS_ENV=#{rails_env} rake db:p8352:add_default_users"
     # add default user "admin" with attributes:
     #   email="username@some-domain-name.com",
     #   password="admin123"
     #   role="admin"
     
-#    run "cd #{current_path}; RAILS_ENV=#{rails_env} rake db:p8352:add_sources"
+    run "cd #{current_path}; RAILS_ENV=#{rails_env} rake db:p8352:add_sources"
     # add sources from libs/grabber/*
 
   end
@@ -103,15 +112,33 @@ namespace :deploy do
 
   desc "Copy production database.yml file to current release"
   task :database_yml do
-    run "cp #{user_home}/twit2sms.settings/database.yml #{current_path}/config/database.yml"
-    run "cp #{user_home}/twit2sms.settings/shgsm_key.rb #{current_path}/config/shgsm_key.rb"
+    run "cp #{user_home}/8352.info.settings/database.yml #{current_path}/config/database.yml"
   end
 end
 
+namespace :background_fu do
+  desc "Start BackgroundFu daemon"
+  task :start, :roles => :app do
+    run "cd #{current_path}; rake background_fu:start RAILS_ENV=#{rails_env}"
+  end
 
-desc "Cleanup older revisions"
-task :after_deploy do
-  cleanup
+  desc "Stop BackgroundFu daemon"
+  task :stop, :roles => :app do
+    run "cd #{current_path}; rake background_fu:stop RAILS_ENV=#{rails_env}"
+  end
+
+  desc "Restart BackgroundFu daemon"
+  task :restart, :roles => :app do
+    stop
+    start
+    run "cd #{current_path}; RAILS_ENV=#{rails_env} rake thinking_sphinx:running_start"
+  end
 end
 
+#desc "Cleanup older revisions"
+#task :after_deploy do
+#  cleanup
+#end
+
+after "deploy:setup", "thinking_sphinx:shared_sphinx_folder"
 after "deploy:symlink", "deploy:database_yml"

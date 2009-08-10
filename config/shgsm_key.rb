@@ -1,1 +1,1 @@
-SHGSM_KEY=''
+SHGSM_KEY='test'

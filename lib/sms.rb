@@ -13,7 +13,5 @@ class SMS
     
     response.body.length>100 ? true : false
     
-
-    
   end
 end

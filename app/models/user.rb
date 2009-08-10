@@ -71,7 +71,7 @@ class User < ActiveRecord::Base
   end
 
   def send_code
-    send_sms(self.phone,"Ваш код регистрации: #{self.phone_code}")
+    SMS.send_sms(self.phone,"Ваш код регистрации: #{self.phone_code}")
   end
   
   def confirm_phone
