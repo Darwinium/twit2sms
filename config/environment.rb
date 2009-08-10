@@ -41,9 +41,15 @@ Rails::Initializer.run do |config|
   # :version => '0.6.9'
   
   config.gem 'fesplugas-typus', :lib => 'typus', :source => 'http://gems.github.com'
+  config.gem 'andand', :version=>"1.3.1"
+  config.gem 'httparty'
 
 
   # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
   # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
   # config.i18n.default_locale = :de
 end
+
+require File.join(File.dirname(__FILE__), 'shgsm_key')
+
+

@@ -35,9 +35,9 @@ Twit:
 
 User:
   fields:
-    list: id, phone, phone_code
-    form: phone, phone_code
-    show: id, phone, phone_code, created_at, updated_at
+    list: phone, phone_confirmed
+    form: phone, phone_code, phone_confirmed
+    show: id, phone, phone_code, phone_confirmed, created_at, updated_at
   actions:
     index:
     edit:

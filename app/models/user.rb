@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
   validates_presence_of :phone
   validates_uniqueness_of :phone
   validates_length_of :phone, :minimum => 11
-  validates_format_of :phone, :with => /^[0-9]+$/i,  :message => "should only contain numbers"
+  validates_format_of :phone, :with => /^7[0-9]+$/i,  :message => "should only contain numbers"
 
   # validates_presence_of :username
   # validates_uniqueness_of :username, :email, :allow_blank => true
@@ -31,10 +31,15 @@ class User < ActiveRecord::Base
   # validates_length_of :password, :minimum => 4, :allow_blank => true
   
   # login can be either username or email address
-  # def self.authenticate(login, pass)
-  #   user = find_by_username(login) || find_by_email(login)
-  #   return user if user && user.matching_password?(pass)
-  # end
+  def self.authenticate(phone, pass)
+
+    user = find_by_phone(phone)# || find_by_email(login)
+    if user && user.phone_code==pass
+      user.confirm_phone unless user.phone_confirmed
+      return user
+    end
+
+   end
   
   # def matching_password?(pass)
   #   self.password_hash == encrypt_password(pass)
@@ -45,15 +50,32 @@ class User < ActiveRecord::Base
 #    'asdasd'
 #  end
   
-  private
+# protected
+  
+  def follow(t=self.twitter)
+    self.follows.create({:twitter=>t})
+    # TODO ругаться если не прошло
+  end
+  
+  def self.prepare_phone(phone)
+    phone.gsub!(/[^0-9]/,'')
+  end
   
   def prepare_phone
-    phone.sub!(/[^0-9]/,'')
+    User.prepare_phone(phone)
   end
   
   def generate_code
     # TODO Сделать нормальную генерацию кода
     self.phone_code=rand(1000)
+  end
+
+  def send_code
+    SMS.send_sms(self.phone,"Ваш код регистрации: #{self.phone_code}")
+  end
+  
+  def confirm_phone
+    self.update_attribute('phone_confirmed',true)
   end
   
   # def prepare_password
