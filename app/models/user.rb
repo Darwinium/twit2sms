@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
   validates_presence_of :phone
   validates_uniqueness_of :phone
   validates_length_of :phone, :minimum => 11
-  validates_format_of :phone, :with => /7^[0-9]+$/i,  :message => "should only contain numbers"
+  validates_format_of :phone, :with => /^7[0-9]+$/i,  :message => "should only contain numbers"
 
   # validates_presence_of :username
   # validates_uniqueness_of :username, :email, :allow_blank => true
@@ -60,15 +60,18 @@ class User < ActiveRecord::Base
   def self.prepare_phone(phone)
     phone.gsub!(/[^0-9]/,'')
   end
-
   
   def prepare_phone
-    phone.gsub!(/[^0-9]/,'')
+    User.prepare_phone(phone)
   end
   
   def generate_code
     # TODO Сделать нормальную генерацию кода
     self.phone_code=rand(1000)
+  end
+
+  def send_code
+    send_sms(self.phone,"Ваш код регистрации: #{self.phone_code}")
   end
   
   def confirm_phone
