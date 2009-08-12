@@ -20,11 +20,14 @@
     <div class="clear"></div>
     <div class="smal_t">Код, который Вам высылали. Я забыл код, <a href="send_code">выслать</a> его снова.</div>
   </p>
-  <div align="right"><%= submit_tag "Войти" %></div>
+  <div align="right"><button type="submit"><img src="/images/login.gif" alt="Следить"/></button></div>
 
 <% end %>
 <br/>
-<p>Don't have an account? <%= link_to "Sign up!", signup_path %></p>
+<p class="text_l">
+  Ещё не зарегистрированы? о_О <br/>
+  <%= link_to "Бегом регистрироваться!", signup_path, :class => "big_link" %>
+</p>
 </div>
 
 
