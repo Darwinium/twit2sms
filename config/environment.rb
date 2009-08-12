@@ -42,7 +42,8 @@ Rails::Initializer.run do |config|
   
   config.gem 'fesplugas-typus', :lib => 'typus', :source => 'http://gems.github.com'
   config.gem 'andand', :version=>"1.3.1"
-  config.gem 'httparty'
+  config.gem 'twitter'
+  config.gem 'httparty', :version => "0.4.3"
 
 
   # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
